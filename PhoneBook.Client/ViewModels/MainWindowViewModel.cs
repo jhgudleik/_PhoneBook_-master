@@ -1,10 +1,11 @@
-﻿using System;
+using PhoneBook.Models;
+using ReactiveUI;
+using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Reactive;
-using PhoneBook.Models;
-using ReactiveUI;
+using System.Reactive.Linq;
 
 namespace PhoneBook.Client.ViewModels;
 
@@ -44,6 +45,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public ReactiveCommand<Unit, Unit> LoadCommand { get; }
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
+    public ReactiveCommand<Unit, Unit> DeleteCommand { get; } // Новая команда
 
     public MainWindowViewModel()
     {
@@ -77,6 +79,27 @@ public class MainWindowViewModel : ViewModelBase
 
             const string url = "http://localhost:5120/phonebook";
             await HttpClient.PostAsJsonAsync(url, item);
+
+            // Обновляем список после сохранения
+            await LoadCommand.Execute();
         });
+
+        // Команда удаления с проверкой возможности выполнения
+        DeleteCommand = ReactiveCommand.CreateFromTask(
+            async () =>
+            {
+                if (SelectedItem?.Id == null) return;
+
+                var url = $"http://localhost:5120/phonebook/{SelectedItem.Id}";
+                await HttpClient.DeleteAsync(url);
+
+                // Удаляем из локальной коллекции
+                PhoneBook.Remove(SelectedItem);
+
+                // Сбрасываем выбор (очистит поля автоматически)
+                SelectedItem = null;
+            },
+            this.WhenAnyValue(x => x.SelectedItem).Select(item => item != null)
+        );
     }
 }
