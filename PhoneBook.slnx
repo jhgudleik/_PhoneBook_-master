@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="compose.yaml" />
+  </Folder>
+  <Project Path="PhoneBook.Client/PhoneBook.Client.csproj" />
+  <Project Path="PhoneBook.Models/PhoneBook.Models.csproj" />
+  <Project Path="PhoneBook.Server/PhoneBook.Server.csproj" />
+</Solution>

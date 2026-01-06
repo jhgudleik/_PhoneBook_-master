@@ -1,0 +1,54 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PhoneBook.Client.ViewModels"
+        
+        x:Class="PhoneBook.Client.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        
+        Icon="/Assets/avalonia-logo.ico"
+        Title="PhoneBook.Client">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Load"
+                      Command="{Binding Path=LoadCommand}"/>
+        </Menu>
+        
+        <Grid ColumnDefinitions="*, 3*">
+            <ListBox ItemsSource="{Binding Path=PhoneBook}"
+                     SelectedItem="{Binding Path=SelectedItem}"
+                     Grid.Column="0"/>
+                     
+                    
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <Label Target="{Binding ElementName=InputID}"
+                           Content="ID"/>
+                    <TextBox x:Name="InputID"
+                             Text="{Binding Path=Id}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Target="{Binding ElementName=InputName}"
+                           Content="Name"/>
+                    <TextBox x:Name="InputName"
+                             Text="{Binding Path=Name}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Target="{Binding ElementName=InputPhone}"
+                           Content="Phone"/>
+                    <TextBox x:Name="InputPhone"
+                             Text="{Binding Path=Phone}"/>
+                </StackPanel>
+                <Button Content="Add"
+                        Command="{Binding Path=SaveCommand}"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>

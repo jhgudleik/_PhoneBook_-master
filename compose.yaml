@@ -1,0 +1,10 @@
+﻿services:
+  phonebook.db:
+    image: postgres:latest
+    container_name: phonebook.db
+    environment:
+        POSTGRES_PASSWORD: 1234
+        POSTGRES_USER: postgres
+        POSTGRES_DB: phonebook
+    ports: 
+        - "5433:5432"
