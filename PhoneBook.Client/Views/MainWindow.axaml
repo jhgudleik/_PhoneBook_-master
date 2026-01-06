@@ -48,7 +48,9 @@
                 </StackPanel>
                 <Button Content="Add"
                         Command="{Binding Path=SaveCommand}"/>
-            </StackPanel>
+				<Button Content="Удалить" Command="{Binding DeleteCommand}" />
+
+			</StackPanel>
         </Grid>
     </DockPanel>
 </Window>
